@@ -1,7 +1,7 @@
 """
 An early draft of creating and visualizing walls for the LBCC Slambot system.
 """
-import pygame, sys, random, os
+import pygame, sys, random
 from pygame.locals import *
 
 
@@ -23,7 +23,9 @@ class Map:
 
 
 if __name__ == "__main__":
-    pygame.init()
+    pygame.display.init()
+    # For some reason, using pygame.init() alone causes program to hang.
+    # Could not find a better solution than initializing display by itself.
     screen = pygame.display.set_mode((500, 500))
     screen.fill((255, 255, 255))  # white background
 
@@ -34,17 +36,23 @@ if __name__ == "__main__":
     for i in range(100):
         localMap.make_wall(random.randrange(0, 600), random.randrange(0, 600))
 
-    for spot in walls:
-        color = 255-walls[spot]*55  # Walls get darker as they are seen more often
+    # Draw walls on a pygame map.
+    for spot in localMap.walls:
+        color = 255-localMap.walls[spot]*55  # Walls get darker as they are seen more often
         # Syntax is: screen, color, (x, y, width, height), thickness
         pygame.draw.rect(screen, (color, color, color),
                          [a+b for a, b in zip(botPos, spot)]+[5, 5], 0)
 
+    # Redraw map using newly placed walls.
     pygame.display.update()
-    #Pygame seems to freak out on exit, I'm not yet sure why.
-    while True:
+
+
+    # Pygame has stupid problems quitting
+    running = True
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 print "Quitting."
                 pygame.quit()
                 sys.exit()
+                running = False
