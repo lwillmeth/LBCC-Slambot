@@ -51,14 +51,19 @@ if __name__ == "__main__":
     screen.fill((255, 255, 255))  # white background
 
     localMap = Map()
-    botPos = [0, 0]
+    localMap.set_bot(250,250) # Position bot in center of the map.
 
-    # Add some randomized walls to the model
-    for i in range(100):
-        if i % 2 == 0:
-            localMap.make_wall(random.choice([100, 400]), random.randrange(100, 400))
-        else:
-            localMap.make_wall(random.randrange(100, 400), random.choice([100, 400]))
+    # # Add some randomized walls to the model
+    # for i in range(100):
+    #     if i % 2 == 0:
+    #         localMap.make_wall(random.choice([100, 400]), random.randrange(100, 400))
+    #     else:
+    #         localMap.make_wall(random.randrange(100, 400), random.choice([100, 400]))
+
+    # Add better randomized walls using distance & angle instead.
+    for angle in range(0, 70, 5):
+        localMap.find_wall(200, math.radians(angle))
+
 
     # Draw walls on a pygame map.
     for spot in localMap.walls:
