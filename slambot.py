@@ -61,15 +61,17 @@ if __name__ == "__main__":
     pygame.draw.circle(screen, black, localMap.botPos, 4, 0)
 
     # Add randomized walls using distance & angle.
-    for angle in [math.radians(a) for a in range(0, 200, 5)]:
-        if (angle%(3*math.pi/4))/(math.pi/4) < 1:
-            d = abs(200/math.cos(angle))
-            print d, angle, 'cos'
-            localMap.find_wall(d, angle)
+    rad = lambda x: math.radians(x)
+    for angle in range(0, 360, 5): # Using degrees b/c range doesn't like floats
+        # Imagine a bowtie.  While measuring the sides of the bowtie, use cos()
+        # because the x value is consistant for any point along the side.
+        # Use sin() for top/bottom because the y value is consistant there.
+        if ((angle + 45) % 180 / 90.0) < 1:
+            d = abs(200 / math.cos(rad(angle)))
         else:
-            d = abs(200/math.sin(angle))
-            print d, angle, 'sin'
-            localMap.find_wall(d, angle)
+            d = abs(200 / math.sin(rad(angle)))
+        #print angle, d
+        localMap.find_wall(d, rad(angle))
 
     # Draw walls on a pygame map.
     for spot in localMap.walls:
