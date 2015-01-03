@@ -1,30 +1,29 @@
 /*
 A library written for the LBCC Slambot on Jan 1, 2015, by Levi Willmeth.
 */
-
-//#include "Arduino.h"
-
+#include "Arduino.h"
 // Solves problems if library is imported more than once.
 #ifndef SlambotStepper_h
   #define SlambotStepper_h
 
 class SlambotStepper{
   public:
-    SlambotStepper(int N1, int N2, int N3, int N4,
-        unsigned long iMaxStep, unsigned long iDelay, boolean iCW);
-    void turn(void);
-    void turn(unsigned int steps);
+    SlambotStepper(unsigned int maxStep, byte iN1, byte iN2, byte iN3, byte iN4);
+
+    void step(void);
+    void step(unsigned int steps);
+    
     unsigned int stepsPerRev;
     unsigned int currentStep;
-    unsigned int delay;
+    unsigned int minDelay;
     boolean CW;
 
   private:
-    byte _N1;
-    byte _N2;
-    byte _N3;
-    byte _N4;
-    byte _pos;
+    byte N1;
+    byte N2;
+    byte N3;
+    byte N4;
+    byte pos;
 };
 
 #endif
