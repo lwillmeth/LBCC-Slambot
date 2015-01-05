@@ -16,7 +16,7 @@ SlambotStepper::SlambotStepper(unsigned int maxStep, byte iN1, byte iN2, byte iN
   N4 = iN4;
   stepsPerRev = maxStep;
   
-  minDelay = 1000;  // defaults to 1000 microsecond delay
+  minDelay = 1200;  // defaults to 1000 microsecond delay
   CW = true;        // defaults to clockwise rotation
   
   // These pins drive the motor, so assign them as outputs
@@ -35,6 +35,7 @@ void SlambotStepper::step(void){
 
 void SlambotStepper::step(unsigned int steps){
   // Advance the motor position by ( < 65535) steps.
+  Serial.println(minDelay);
   while(steps--){
     switch(pos){
       case 0:
@@ -88,7 +89,8 @@ void SlambotStepper::step(unsigned int steps){
     } // end switch
     pos += CW ? 1 : -1; // Change motor position based on rotation direction
     if (pos > 7) pos %= 8;  // There are only 8 possible motor positions
+    currentStep++;
+    delayMicroseconds(minDelay); // Don't run too fast or motor will stutter
   } // end while loop
-  currentStep++;
-  delayMicroseconds(minDelay); // Don't run too fast or motor will stutter
+  if(minDelay > 650) minDelay -= 50;
 }

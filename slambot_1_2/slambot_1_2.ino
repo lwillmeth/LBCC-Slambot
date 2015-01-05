@@ -52,7 +52,7 @@ void loop() {
   rev_start_time = millis();
   turret.step(2048);
   Serial.print("\nOne rev completed in ");
-  Serial.print( (millis() - rev_start_time)/1000);
+  Serial.print( (millis() - rev_start_time)/1000.0);
   Serial.print(" seconds.");
 }
 
