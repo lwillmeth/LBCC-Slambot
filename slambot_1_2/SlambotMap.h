@@ -22,16 +22,17 @@ class SlambotMap{
     void addCoord(unsigned int ix, unsigned int iy);
     void addAngle(unsigned int theta, unsigned int distance);
   private:
-    wallCloud localMap[1000];
+    wallCloud * localMap;
     unsigned int mapIndex = 0; // 0-65,535 and after that we need to change data types.
 };
 
 SlambotMap::SlambotMap(){
-  // Constructor, empty for now.
+  // Constructor, defaults to a 1000 point map.
+  SlambotMap(1000);
 }
 
 SlambotMap::SlambotMap(unsigned int size){
-  localMap = wallCloud[1000];
+  localMap = new wallCloud[size];
 }
 
 void SlambotMap::addCoord(unsigned int iX, unsigned int iY){
