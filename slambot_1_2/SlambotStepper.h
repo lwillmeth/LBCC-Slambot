@@ -126,7 +126,7 @@ void SlambotStepper::step(unsigned int steps, boolean clockwise){
     delayMicroseconds(minDelay); // Don't run too fast or motor will stutter
   } // end while loop
   // Can go as low as 600, but begins becoming unreliable below 1200.
-  if(minDelay > 1000) minDelay -= 50;
+  //  if(minDelay > 1000) minDelay -= 50;
 }
 
 void SlambotStepper::moveToRad(float target){
@@ -153,7 +153,7 @@ void SlambotStepper::moveRadCCW(float target){
 float SlambotStepper::getTheta(){
   // Returns the current angle as a float, in radians
   currentStep %= stepsPerRev;        // No point in theta going over 2*PI rads
-  return currentStep * radsPerStep;
+  return (currentStep * radsPerStep);
 }
 
 #endif
